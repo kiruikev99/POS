@@ -12,7 +12,7 @@ const corsOptions = {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
-    }x
+    }
   }
 }
 
