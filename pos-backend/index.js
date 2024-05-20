@@ -17,9 +17,12 @@ const corsOptions = {
 }
 
 
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+  const bodyParser = require('body-parser');
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+
+
+  app.use('../pos-page/src/images', express.static('../pos-page/src/images'))  //static folder that will hold all the images that we upload 
 
 
 app.use('/api/product', productRoutes);

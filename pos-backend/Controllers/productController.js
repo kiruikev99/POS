@@ -1,30 +1,44 @@
 const db = require("../Model/DbConnect");
+const multer =require("multer")
+const path = require("path")
 
 const product = db.product;
 
-module.exports = {
-    addProducts: async (req, res, next) => {
-        try {
-            if (!req.body || !req.body.Product_Name || !req.body.Product_Qty || !req.body.Product_Price || !req.body.Product_Description) {
-                return res.status(400).send("Missing required fields in request body.");
-            }
-            
-            let info = {
-                Product_Name: req.body.Product_Name,
-                Product_Qty: req.body.Product_Qty,
-                Product_Price: req.body.Product_Price,
-                Product_Description: req.body.Product_Description,
-            };
 
-            const addProduct = await product.create(info);
-            res.status(200).send(addProduct);
-        } catch (error) {
-            console.log(error);
-            next(error);
+
+const addProducts = async (req, res, next) => {
+    try {
+        // Check if file was uploaded
+        if (!req.file) {
+            return res.status(400).send("No file uploaded.");
         }
-    },
+        
+        const filePath = req.file.path.replace(/\\/g, '/'); // Replace backslashes with forward slashes
+        const fileName = filePath.split('/').pop(); // Extract the file name
 
-    getAllProduct: async (req, res, next) => {
+        // Extract other form fields
+        const { Product_Name, Product_Qty, Product_Price, Product_Description } = req.body;
+
+        // Create new product with image path
+        const newProduct = await product.create({
+            Product_Name,
+            Product_Qty,
+            Product_Price,
+            Product_Description,
+            Product_Image: fileName
+        });
+
+        res.status(201).json(newProduct);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal server error.");
+    }
+};
+
+
+
+    //GET PRODUCT SECTION
+    const getAllProduct =  async (req, res, next) => {
         try {
             const products = await product.findAll({});
             res.status(200).send(products);
@@ -32,4 +46,42 @@ module.exports = {
             next(error);
         }
     }
+   
+
+    //UPLOAD SECTION
+    const storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, '../pos-page/src/images')  //Store that image ///destination
+            
+        },
+        filename: (req, file, cb) => {
+            cb(null, Date.now() + path.extname(file.originalname)) //Name of the file type in the destination folder 
+        }
+    })
+
+    const upload = multer({
+        storage: storage,
+        limits: { fileSize: '7000000'},
+        fileFilter: (req, file, cb) => {
+            const fileTypes = /jpeg|jpg|png/
+            const mimeType = fileTypes.test(file.mimetype) //checks the file types and if okay it uplads
+            const extname = fileTypes.test(path.extname(file.originalname)) //give actual files extension and if matching with file types checks if it actual like the mimetype 
+    
+            if(mimeType && extname){
+                return cb(null, true)
+            }
+            cb('give proper file format to upload ')
+        }
+    }).single('Product_Image')
+
+
+    
+
+    
+module.exports = {
+    addProducts,
+    getAllProduct,
+    upload,
+
+
 };
