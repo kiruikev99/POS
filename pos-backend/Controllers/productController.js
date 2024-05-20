@@ -46,6 +46,25 @@ const addProducts = async (req, res, next) => {
             next(error);
         }
     }
+    //DELETE SECTION
+    const deleteProduct = async (req, res, next) => {
+        try {
+            const productId = req.params.id;  // Extract ID from the URL parameters
+            const deletedProduct = await product.destroy({
+                where: {Product_id: productId }
+            });
+    
+            if (deletedProduct) {
+                res.status(200).send(`Product with ID ${productId} deleted successfully.`);
+            } else {
+                res.status(404).send(`Product with ID ${productId} not found.`);
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).send("Internal server error.");
+        }
+    };
+    
    
 
     //UPLOAD SECTION
@@ -82,6 +101,7 @@ module.exports = {
     addProducts,
     getAllProduct,
     upload,
+    deleteProduct
 
 
 };
