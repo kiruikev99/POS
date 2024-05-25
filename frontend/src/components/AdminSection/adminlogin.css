@@ -1,0 +1,22 @@
+.admin-body{
+    background-color: #00043C;
+    height: 150vh;
+    padding: 50px;
+}
+.sections{
+    display: flex;
+    justify-content: space-evenly;
+}
+.img{
+    padding-top: 10%;
+}
+form{
+    padding-top: 10%;
+    background-color: rgb(255, 255, 255);
+    padding: 100px;
+    border-radius: 0px;
+    
+}
+.form > input{
+    display: none;
+}
