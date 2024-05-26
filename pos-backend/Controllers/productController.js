@@ -70,7 +70,7 @@ const addProducts = async (req, res, next) => {
     //UPLOAD SECTION
     const storage = multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, '../pos-page/src/images')  //Store that image ///destination
+            cb(null, '../pos-page/src/components/AdminSection/images')  //Store that image ///destination
             
         },
         filename: (req, file, cb) => {
@@ -95,13 +95,14 @@ const addProducts = async (req, res, next) => {
 
 
     
+    
 
     
 module.exports = {
     addProducts,
     getAllProduct,
     upload,
-    deleteProduct
+    deleteProduct,
 
 
 };
