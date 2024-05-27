@@ -64,6 +64,15 @@ const addProducts = async (req, res, next) => {
             res.status(500).send("Internal server error.");
         }
     };
+    const countProduct = async (req, res, next) => {
+        try {
+            const productCount = await product.count();
+            res.status(200).json({ productCount});
+        } catch (error) {
+            console.error(error);
+            res.status(500).send("Internal server error.");
+        }
+    };
     
    
 
@@ -103,6 +112,7 @@ module.exports = {
     getAllProduct,
     upload,
     deleteProduct,
+    countProduct,
 
 
 };

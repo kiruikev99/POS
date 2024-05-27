@@ -30,6 +30,16 @@ const getAllAdmin = async (req, res, next) => {
         next(error);
     }
 };
+const countAdmin = async (req, res, next) => {
+    try {
+        const countAdmin = await admin.count();
+        res.status(200).json({ countAdmin});
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal server error.");
+    }
+};
+
 
 // DELETE SECTION
 const deleteAdmin = async (req, res, next) => {
@@ -101,7 +111,7 @@ const dd = async (req, res, next) => {
 module.exports = {
     addAdmin,
     deleteAdmin,
-    
+    countAdmin,
     getAllAdmin,
     login
 };

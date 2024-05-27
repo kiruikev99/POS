@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const productRoutes = require('./Route/ProductRoute');
 const adminRoutes = require('./Route/AdminRoute');
-
+const userRoutes = require('./Route/UserRoute')
 const app = express();
 
 // Enable CORS
@@ -35,6 +35,8 @@ app.use('/api/product', productRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/admins', adminRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/user', userRoutes);
 
 // Start the server
 const PORT = 4000;

@@ -25,6 +25,7 @@ db.sequelize = sequelize;
 
 db.product = require("./ProductModel")(sequelize, DataTypes);
 db.admin = require("./AdminModel")(sequelize, DataTypes);
+db.user = require("./UserModel")(sequelize, DataTypes);
 
 
 module.exports = db;
